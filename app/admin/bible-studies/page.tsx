@@ -12,6 +12,7 @@ export default function AdminBibleStudiesPage() {
         { key: "summary", label: "Summary", type: "textarea", required: true },
         { key: "lessons", label: "Number of Lessons", type: "number", required: true },
         { key: "image", label: "Cover Image", type: "image", bucket: "site-images" },
+        { key: "published", label: "Published (visible on the public site)", type: "checkbox", helper: "Uncheck to save as a draft." },
       ]}
     />
   );

@@ -15,6 +15,7 @@ const links = [
   { href: "/resources", label: "Resources" },
   { href: "/sermons", label: "Sermons" },
   { href: "/ebooks", label: "eBooks" },
+  { href: "/events", label: "Events" },
   { href: "/gallery", label: "Gallery" },
   { href: "/donate", label: "Donate" },
   { href: "/contact", label: "Contact" },

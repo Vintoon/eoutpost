@@ -17,6 +17,7 @@ export default function AdminGalleryPage() {
           required: true,
           options: ["Evangelism", "Health Ministry", "Children's Ministry", "Family Seminars", "Camp Meetings"],
         },
+        { key: "published", label: "Published (visible on the public site)", type: "checkbox", helper: "Uncheck to save as a draft." },
       ]}
     />
   );

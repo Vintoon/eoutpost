@@ -14,6 +14,7 @@ export default function AdminNewsPage() {
         { key: "content", label: "Full Content", type: "textarea" },
         { key: "image", label: "Image", type: "image", bucket: "site-images" },
         { key: "date", label: "Date", type: "date", required: true },
+        { key: "published", label: "Published (visible on the public site)", type: "checkbox", helper: "Uncheck to save as a draft." },
       ]}
     />
   );

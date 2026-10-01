@@ -8,6 +8,7 @@ import { articles, bibleStudies, type Article, type BibleStudy } from "@/data/ar
 import { sermons, type Sermon } from "@/data/sermons";
 import { books, type Book } from "@/data/books";
 import { galleryImages, type GalleryImage } from "@/data/gallery";
+import { events, type EventItem } from "@/data/events";
 import { siteConfig } from "@/lib/site-config";
 import { siteContentDefaults } from "@/lib/site-content-defaults";
 
@@ -19,14 +20,19 @@ import { siteContentDefaults } from "@/lib/site-content-defaults";
  * deleting every sermon) is a real, intentional state and must render as
  * empty, not silently revert to the old placeholder demo content.
  */
-async function fetchOrFallback<T>(table: string, fallback: T[], orderBy = "created_at"): Promise<T[]> {
+async function fetchOrFallback<T>(
+  table: string,
+  fallback: T[],
+  orderBy = "created_at",
+  ascending = false
+): Promise<T[]> {
   const supabase = getSupabaseServerClient();
   if (!supabase) return fallback;
   try {
     const { data, error } = await supabase
       .from(table)
       .select("*")
-      .order(orderBy, { ascending: false });
+      .order(orderBy, { ascending });
     if (error) return fallback;
     return (data as T[]) ?? [];
   } catch {
@@ -44,6 +50,7 @@ export const getSermons = () => fetchOrFallback<Sermon>("sermons", sermons, "dat
 export const getBooks = () => fetchOrFallback<Book>("books", books, "created_at");
 export const getGalleryImages = () => fetchOrFallback<GalleryImage>("gallery", galleryImages, "created_at");
 export const getBibleStudies = () => fetchOrFallback<BibleStudy>("bible_studies", bibleStudies, "created_at");
+export const getEvents = () => fetchOrFallback<EventItem>("events", events, "date", true);
 
 /** site_settings is a key/value table; falls back to lib/site-config.ts. */
 export async function getSiteSettings() {

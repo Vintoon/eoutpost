@@ -38,6 +38,7 @@ export default function AdminSermonsPage() {
           showIf: (d) => d.sermon_type === "audio",
         },
         { key: "thumbnail", label: "Thumbnail Image", type: "image", bucket: "sermon-media", required: true },
+        { key: "published", label: "Published (visible on the public site)", type: "checkbox", helper: "Uncheck to save as a draft." },
       ]}
     />
   );

@@ -2,6 +2,7 @@ import Hero from "@/components/home/Hero";
 import AboutPreview from "@/components/home/AboutPreview";
 import MinistryAreas from "@/components/home/MinistryAreas";
 import NewsSection from "@/components/home/NewsSection";
+import UpcomingEvents from "@/components/home/UpcomingEvents";
 import FeaturedResources from "@/components/home/FeaturedResources";
 import HealthSection from "@/components/home/HealthSection";
 import GardeningSection from "@/components/home/GardeningSection";
@@ -27,6 +28,7 @@ export default async function HomePage() {
         }}
       />
       <NewsSection />
+      <UpcomingEvents />
       <FeaturedResources />
       <HealthSection />
       <GardeningSection />

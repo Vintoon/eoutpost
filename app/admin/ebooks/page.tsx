@@ -16,6 +16,7 @@ export default function AdminEbooksPage() {
         { key: "description", label: "Description", type: "textarea" },
         { key: "cover", label: "Cover Image", type: "image", bucket: "book-covers" },
         { key: "file_url", label: "eBook File", type: "file", helper: "Uploaded files are private — only accessible to admins until the purchase flow is built.", bucket: "ebook-files", bucketPublic: false },
+        { key: "published", label: "Published (visible on the public site)", type: "checkbox", helper: "Uncheck to save as a draft." },
       ]}
     />
   );

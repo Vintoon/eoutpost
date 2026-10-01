@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Newspaper, MessageSquareQuote, Sprout, HeartPulse, BookOpenText,
-  PlayCircle, Library, Images, HandCoins, Inbox, Mail, GraduationCap,
+  PlayCircle, Library, Images, HandCoins, Inbox, Mail, GraduationCap, CalendarDays,
 } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 const cards = [
   { table: "news", label: "News Items", href: "/admin/news", icon: Newspaper },
+  { table: "events", label: "Events", href: "/admin/events", icon: CalendarDays },
   { table: "testimonials", label: "Testimonials", href: "/admin/testimonials", icon: MessageSquareQuote },
   { table: "gardening_tips", label: "Gardening Tips", href: "/admin/gardening", icon: Sprout },
   { table: "health_articles", label: "Health Articles", href: "/admin/health", icon: HeartPulse },

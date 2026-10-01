@@ -16,6 +16,7 @@ export default function AdminArticlesPage() {
         { key: "read_time", label: "Read Time", type: "text", placeholder: "e.g. 5 min read" },
         { key: "date", label: "Date", type: "date", required: true },
         { key: "image", label: "Image", type: "image", bucket: "site-images" },
+        { key: "published", label: "Published (visible on the public site)", type: "checkbox", helper: "Uncheck to save as a draft." },
       ]}
     />
   );

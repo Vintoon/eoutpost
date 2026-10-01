@@ -26,6 +26,8 @@ export interface FieldConfig {
   bucket?: string;
   /** Set false for a private bucket (e.g. ebook files) — stores the storage path instead of a public URL. */
   bucketPublic?: boolean;
+  /** Initial value for a new entry. Checkbox fields default to true (e.g. "published") unless set false here. */
+  defaultValue?: string | boolean;
 }
 
 interface CrudManagerProps {
@@ -45,7 +47,11 @@ type Row = Record<string, any>;
 function emptyRow(fields: FieldConfig[]): Row {
   const row: Row = {};
   fields.forEach((f) => {
-    row[f.key] = f.type === "checkbox" ? false : "";
+    if (f.defaultValue !== undefined) {
+      row[f.key] = f.defaultValue;
+    } else {
+      row[f.key] = f.type === "checkbox" ? true : "";
+    }
   });
   return row;
 }

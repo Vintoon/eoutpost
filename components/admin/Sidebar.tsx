@@ -21,6 +21,7 @@ import {
   LogOut,
   FileEdit,
   GraduationCap,
+  CalendarDays,
   X,
 } from "lucide-react";
 
@@ -28,6 +29,7 @@ const nav = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/site-content", label: "Homepage & About", icon: FileEdit },
   { href: "/admin/news", label: "News", icon: Newspaper },
+  { href: "/admin/events", label: "Events", icon: CalendarDays },
   { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { href: "/admin/gardening", label: "Gardening", icon: Sprout },
   { href: "/admin/health", label: "Health", icon: HeartPulse },
