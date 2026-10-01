@@ -29,12 +29,15 @@ render using the sample data in `/data` until Supabase is connected.
 1. Go to [supabase.com](https://supabase.com), sign in, and click
    **New Project**. Pick any name/region and a database password (save it
    somewhere safe).
-2. Once the project is ready, open **SQL Editor** in the left sidebar, click
-   **New query**, paste in the entire contents of `supabase/schema.sql` from
-   this project, and click **Run**. This creates every table (articles,
-   sermons, eBooks, gallery, news, testimonials, gardening tips, health
-   articles, donation channels, site settings, contact messages, prayer
-   requests, newsletter subscribers) with the correct security rules.
+2. Once the project is ready, open **SQL Editor** in the left sidebar and run,
+   in order: `supabase/schema.sql`, then `supabase/schema_update_v2.sql`,
+   `schema_update_v3.sql`, and `schema_update_v4.sql` (each file — paste the
+   whole thing into a new query and click **Run**). Together these create
+   every table (articles, sermons, eBooks, gallery, news, testimonials,
+   gardening tips, health articles, donation channels, site settings,
+   site content, Bible studies, events, newsletter campaigns, contact
+   messages, prayer requests, newsletter subscribers, purchases) with the
+   correct security rules, including per-item publish/unpublish.
 3. Go to **Project Settings → API** and copy:
    - **Project URL**
    - **anon public** key
@@ -80,13 +83,44 @@ Once logged in you can manage, without touching code:
 - **Donation Channels** — `/donate` (M-Pesa, bank, etc.)
 - **Messages & Prayer Requests** — everything submitted through the
   Contact form and the Prayer Request form
-- **Newsletter** — everyone who has subscribed
+- **Newsletter** — compose and send an email update to every subscriber,
+  right from `/admin/newsletter` (see **Sending Newsletters** below for the
+  one-time setup this needs), plus a history of past sends and the list of
+  subscribers
 - **Site Settings** — phone, WhatsApp, email, and YouTube details shown
   across the site (Footer, Contact page, floating WhatsApp button)
 
 Each content page works the same way: **Add New** opens a form, existing
 rows can be edited or deleted inline, and changes appear on the live site
-immediately (content is fetched fresh on each page load).
+immediately (content is fetched fresh on each page load). Most content types
+also have a **Published** checkbox — uncheck it to save a draft that stays
+hidden from visitors until you're ready.
+
+## 3b. Sending Newsletters (one-time setup)
+
+The subscriber list and "compose & send" UI work out of the box, but actually
+delivering emails needs two more things, since sending bulk email requires a
+real email-sending service (Supabase doesn't send email itself):
+
+1. **Sign up at [resend.com](https://resend.com)** (free tier covers most
+   small ministries) and create an API key.
+2. **Verify a sending domain** in Resend (Domains → Add Domain, then add the
+   DNS records they give you at your domain registrar). Until a domain is
+   verified, Resend will only deliver to your own account email — not to
+   real subscribers.
+3. In Supabase, go to **Project Settings → API** and copy the
+   **service_role** key (this is secret — different from the anon key).
+4. Add three values to `.env.local` (see `.env.local.example` for the exact
+   format):
+   - `SUPABASE_SERVICE_ROLE_KEY` — from step 3
+   - `RESEND_API_KEY` — from step 1
+   - `NEWSLETTER_FROM_EMAIL` — an address at your verified domain, e.g.
+     `"Enoch's Outpost <news@yourdomain.com>"`
+5. Restart the dev server (or redeploy). `/admin/newsletter` can now
+   actually send.
+
+Until this is configured, the compose form will show a clear error telling
+you what's missing rather than failing silently.
 
 ## 4. Contact Details Currently Set
 
@@ -159,7 +193,14 @@ public/logo.png          Ministry logo
 Deploy to [Vercel](https://vercel.com) (or any Next.js host) and add the
 same two `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 environment variables in the host's project settings. No other secrets are
-needed — the Supabase **anon** key is safe to expose publicly; the actual
-write protection comes from the Row Level Security policies in
-`supabase/schema.sql`, which only allow content changes from a logged-in
-admin.
+needed for the public site — the Supabase **anon** key is safe to expose
+publicly; the actual write protection comes from the Row Level Security
+policies in `supabase/schema.sql`, which only allow content changes from a
+logged-in admin.
+
+If you've set up newsletter sending (see **3b** above), also add
+`SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, and `NEWSLETTER_FROM_EMAIL` as
+environment variables on the host. Unlike the anon key, **these three are
+secret** — add them as regular (server-only) environment variables, never
+with a `NEXT_PUBLIC_` prefix, or they'd be bundled into client-side code and
+exposed to every visitor.
